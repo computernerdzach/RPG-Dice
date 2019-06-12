@@ -56,15 +56,14 @@ def clicked():
                 counter += 1
         else:
             result1 = str(random.randint(1, int(sides)))
-            theList.append(result1)
+            theList.append("# " + str(counter) + " is : " + str(result1))
+            counter += 1
     endString = ", ".join(theList)
     lbl['text'] = endString
 
     lblH2['text'] = history2
     lblH1['text'] = history1
     # lbl['text'] = result1
-
-
 
 btn = tk.Button(window, text="Roll", command=clicked)
 btn.grid(column=4, row=0)
