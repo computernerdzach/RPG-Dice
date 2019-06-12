@@ -1,0 +1,61 @@
+import tkinter as tk
+from tkinter import ttk
+import random
+
+window = tk.Tk()
+window.title("RPG Dice")
+window.geometry('500x100')
+
+global history1
+global history2
+result = "Waiting to roll..."
+result1 = ""
+history1 = ""
+history2 = ""
+
+lbl = tk.Label(window, text=result)
+lbl.grid(column=0, row=5)
+
+lblH1 = tk.Label(window, text=history1)
+lblH1.grid(column=0, row=4)
+
+lblH2 = tk.Label(window, text=history2)
+lblH2.grid(column=0, row=3)
+
+d = tk.Label(window, text=" d ")
+d.grid(column=1, row=0)
+
+quantCombo = ttk.Combobox(window)
+quantCombo['values'] = (1,2,3,4,5,6,7,8,9,10)
+quantCombo.current(0)
+quantCombo.grid(column=0, row=0)
+
+combo = ttk.Combobox(window)
+combo['values'] = (2, 4, 6, 8, 10, 12, 20, 100)
+combo.current(6)  # set the selected item
+combo.grid(column=2, row=0)
+
+def clicked():
+    sides = int(combo.get())
+    # quant = int(quantCombo.get())
+    history2 = lblH1['text']
+    history1 = lbl['text']
+    result1 = str(random.randint(1, int(sides)))
+
+    lblH2['text'] = history2
+    lblH1['text'] = history1
+    lbl['text'] = result1
+    # counter = 1
+    # for each in range(1,int(quant)):
+    #     if sides == 20:
+    #         result = random.randint(1,sides)
+    #         if result == 20:
+    #             lbl['text'] = ("Result # " + str(counter) +" is : " + str(result) + " ... Critical Success!")
+    #             counter += 1
+    #         else:
+    #             lbl['text'] = ("Result # " + str(counter) +" is : " + str(result))
+
+btn = tk.Button(window, text="Roll", command=clicked)
+btn.grid(column=4, row=0)
+
+window.mainloop()
