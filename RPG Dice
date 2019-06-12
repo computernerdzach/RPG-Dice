@@ -4,7 +4,7 @@ import random
 
 window = tk.Tk()
 window.title("RPG Dice")
-window.geometry('350x100')
+window.geometry('600x100')
 
 global history1
 global history2
@@ -62,7 +62,7 @@ def clicked():
 
     lblH2['text'] = history2
     lblH1['text'] = history1
-    lbl['text'] = result1
+    # lbl['text'] = result1
 
 
 
