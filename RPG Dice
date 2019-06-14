@@ -1,71 +1,92 @@
+# import modules and libraries
 import tkinter as tk
 from tkinter import ttk
 import random
 
+# Build the window
 window = tk.Tk()
+# Give the window a name to display on top
 window.title("RPG Dice")
-window.geometry('600x100')
+# set a window size
+window.geometry('500x250')
+# make this size not alterable
+window.resizable(width=False, height=False)
 
+#set global values and variables
 global history1
 global history2
 result = "Waiting to roll..."
 history1 = ""
 history2 = ""
 
-lbl = tk.Label(window, text=result)
-lbl.grid(column=0, row=5)
+# Current roll
+lbl = tk.Label(window, text=result, bg="white")
+lbl.grid(column=5, row=0)
 
+# Most recent history
 lblH1 = tk.Label(window, text=history1)
-lblH1.grid(column=0, row=4)
+lblH1.grid(column=5, row=1)
 
+# Second most recent history
 lblH2 = tk.Label(window, text=history2)
-lblH2.grid(column=0, row=3)
+lblH2.grid(column=5, row=2)
 
+# the 'd' in 2d6
 d = tk.Label(window, text=" d ")
-d.grid(column=1, row=0)
+d.grid(column=1, row=0, sticky=tk.N)
 
+# dropdown menu for quantity of dice
 quantCombo = ttk.Combobox(window)
 quantCombo['values'] = (1,2,3,4,5,6,7,8,9,10)
 quantCombo.current(0)
-quantCombo.grid(column=0, row=0)
+quantCombo.grid(column=0, row=0, sticky=tk.N)
 
+# dropdown menu for sides of dice
 combo = ttk.Combobox(window)
 combo['values'] = (2, 4, 6, 8, 10, 12, 20, 100)
 combo.current(6)  # set the selected item
-combo.grid(column=2, row=0)
+combo.grid(column=2, row=0, sticky=tk.N)
 
+# what happens when the roll button is clicked
 def clicked():
+    # get sides and quantity from dropdown menus
     sides = int(combo.get())
     quant = int(quantCombo.get())
+    # update the history list
     history2 = lblH1['text']
     history1 = lbl['text']
 
+    # create an empty list to collect the rolls
     theList = []
+    # set increment counter
     counter = 1
+    # for all of the dice to be rolled...
     for each in range(0, int(quant)):
-        if sides == 20:
+        if sides == 20: # If it's 20-sided...
             result = random.randint(1, sides)
-            if result == 20:
+            if result == 20: # and the result is 20... CRITICAL HIT!
                 theList.append("# " + str(counter) + " is : " + str(result) + " ... Critical Success!")
-                counter += 1
-            elif result == 1:
+                counter += 1 # increment up
+            elif result == 1: # or if the result is 1... CRITICAL MISS!
                 theList.append("# " + str(counter) + " is : " + str(result) + " ... Critical Failure!")
-                counter += 1
-            else:
+                counter += 1 # increment up
+            else: # otherwise its just a regular roll
                 theList.append("# " + str(counter) + " is : " + str(result))
                 counter += 1
-        else:
+        else: # if the die is not 20-sided, collect the roll and increment up
             result1 = str(random.randint(1, int(sides)))
             theList.append("# " + str(counter) + " is : " + str(result1))
             counter += 1
-    endString = ", ".join(theList)
-    lbl['text'] = endString
+    endString = "\n".join(theList) # joint the list together with newline characters in between
 
+    # update the current roll and histories
+    lbl['text'] = endString
     lblH2['text'] = history2
     lblH1['text'] = history1
-    # lbl['text'] = result1
 
+# The roll button
 btn = tk.Button(window, text="Roll", command=clicked)
-btn.grid(column=4, row=0)
+btn.grid(column=4, row=0, sticky=tk.N)
 
+# run program
 window.mainloop()
